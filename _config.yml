@@ -3,7 +3,7 @@ title:              TheToby
 bio:                'Jekyll version of the Massively theme by HTML5UP'
 description:        "Jekyll version of the Massively theme by HTML5UP"
 locale:             en_US
-baseurl: "/blog" # the subpath of your site, e.g. /blog
+baseurl: "/" # the subpath of your site, e.g. /blog
 url: "www.thetoby.eu" # the base hostname & protocol for your site
 
 # Comments
@@ -50,8 +50,8 @@ sass:
   sass_dir:         _sass
   style:            compressed
 
-# Gems
-gems:
+# Gems/plugins
+plugins:
   - jekyll-mentions
   - jekyll-sitemap
   - jekyll-feed
