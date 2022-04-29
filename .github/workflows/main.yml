@@ -1,16 +1,17 @@
+# Based on SwimBurgers tutorial https://swimburger.net/blog/dotnet/how-to-deploy-aspnet-blazor-webassembly-to-github-pages
 name: Deploy to GitHub Pages
 
-# Run workflow on every push to the master branch
+# Run workflow on every push to my release branch
 on:
   push:
     branches: [ release ]
 
 jobs:
-  deploy-to-github-pages:
+  build:
     # use ubuntu-latest image to run steps on
     runs-on: ubuntu-latest
     steps:
-    # uses GitHub's checkout action to checkout code form the master branch
+    # uses GitHub's checkout action to checkout code from the main branch
     - uses: actions/checkout@v2
     
     # sets up .NET SDK
@@ -19,14 +20,9 @@ jobs:
       with:
         dotnet-version: 6.0.x
 
-    # publishes Blazor project to the release-folder
-    - name: Publish .NET Core Project
+    # publishes the Blazor project to the release folder
+    - name: Publish .NET Project
       run: dotnet publish TheToby1.github.io.csproj -c Release -o release --nologo
-    
-    # I don't think I need this
-    # changes the base-tag in index.html from '/' to 'BlazorGitHubPagesDemo' to match GitHub Pages repository subdirectory
-    # - name: Change base-tag in index.html from / to TheToby1.github.io
-    #  run: sed -i 's/<base href="\/" \/>/<base href="\/TheToby1.github.io\/" \/>/g' release/wwwroot/index.html
     
     # copy the CNAME file into the release folder to allow a custom domain
     - name: copy CNAME to CNAME
@@ -39,7 +35,8 @@ jobs:
     # add .nojekyll file to tell GitHub pages to not treat this as a Jekyll project. (Allow files and folders starting with an underscore)
     - name: Add .nojekyll file
       run: touch release/wwwroot/.nojekyll
-      
+  
+  deploy:
     - name: Commit wwwroot to GitHub Pages
       uses: JamesIves/github-pages-deploy-action@3.7.1
       with:
