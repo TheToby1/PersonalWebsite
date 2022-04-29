@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       # uses GitHub's checkout action to checkout code from the main branch
-      - uses: ./.github/workflows/build_and_test
+      - uses: ./.github/workflows/build_and_test.yml
   
   deploy:
     needs: build
