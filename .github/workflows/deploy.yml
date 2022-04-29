@@ -14,8 +14,6 @@ jobs:
       # uses GitHub's checkout action to checkout code from the main branch
       - uses: actions/checkout@v2
       - uses: ./.github/actions/build
-        with:
-          output-file-cache : build_dir
   
   deploy:
     needs: build
@@ -23,8 +21,8 @@ jobs:
     steps:
       - uses: actions/cache@v2
         with:
-          path: release
-          key: wwwroot
+          path: release/wwwroot
+          key: build_output
       - name: Commit wwwroot to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@3.7.1
         with:

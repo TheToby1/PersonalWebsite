@@ -31,5 +31,5 @@ runs:
 
     - uses: actions/cache@v3
       with:
-        path: release
-        key: wwwroot
+        path: release/wwwroot
+        key: build_output
