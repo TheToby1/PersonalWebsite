@@ -1,15 +1,17 @@
 name: build
 
-jobs:
-  build:
-    uses: actions/checkout@v2
-
+runs:
+  using: "composite"
+  steps:
+    # uses GitHub's checkout action to checkout code from the main branch
+    - uses: actions/checkout@v2
+    
     # sets up .NET SDK
     - name: Setup .NET SDK
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 6.0.x
-        
+
     # publishes the Blazor project to the release folder
     - name: Publish .NET Project
       run: dotnet publish TheToby1.github.io.csproj -c Release -o release --nologo
