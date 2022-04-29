@@ -3,7 +3,7 @@ name: Deploy to GitHub Pages
 # Run workflow on every push to the master branch
 on:
   push:
-    branches: [ master ]
+    branches: [ main ]
 
 jobs:
   deploy-to-github-pages:
@@ -27,6 +27,10 @@ jobs:
     - name: Change base-tag in index.html from / to BlazorGitHubPagesDemo
       run: sed -i 's/<base href="\/" \/>/<base href="\/BlazorGitHubPagesDemo\/" \/>/g' release/wwwroot/index.html
     
+    # copy the CNAME file into the release folder to allow a custom domain
+    - name: copy CNAME to CNAME
+      run: cp CNAME release/wwwroot/CNAME
+
     # copy index.html to 404.html to serve the same file when a file is not found
     - name: copy index.html to 404.html
       run: cp release/wwwroot/index.html release/wwwroot/404.html
