@@ -1,9 +1,5 @@
 name: build
 
-inputs:
-  output-file-cache:
-    required: true
-    description: The cache to use for accessing the build dir
 runs:
   using: "composite"
   steps:
@@ -33,7 +29,7 @@ runs:
       shell: bash
       run: touch release/wwwroot/.nojekyll
 
-    - uses: actions/cache@v2
+    - uses: actions/cache@v3
       with:
-        path: release/wwwroot
-        key: ${{ inputs.output-file-cache }}
+        path: release
+        key: wwwroot

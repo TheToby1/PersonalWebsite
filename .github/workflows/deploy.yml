@@ -23,8 +23,8 @@ jobs:
     steps:
       - uses: actions/cache@v2
         with:
-          path: release/wwwroot
-          key: build_dir
+          path: release
+          key: wwwroot
       - name: Commit wwwroot to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@3.7.1
         with:
