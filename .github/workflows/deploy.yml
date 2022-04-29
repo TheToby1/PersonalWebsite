@@ -21,7 +21,7 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/cache@v2
+      - uses: actions/cache@v2
         with:
           path: release/wwwroot
           key: build_dir
