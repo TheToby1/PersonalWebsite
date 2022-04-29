@@ -1,5 +1,9 @@
 name: build
 
+inputs:
+  output-file-cache:
+    required: true
+    description: The cache to use for accessing the build dir
 runs:
   using: "composite"
   steps:
@@ -12,19 +16,24 @@ runs:
     # publishes the Blazor project to the release folder
     - name: Publish .NET Project
       shell: bash
-      run: dotnet publish TheToby1.github.io.csproj -c Release -o ./release --nologo
+      run: dotnet publish TheToby1.github.io.csproj -c Release -o release --nologo
     
     # copy the CNAME file into the release folder to allow a custom domain
     - name: copy CNAME to CNAME
       shell: bash
-      run: cp CNAME ./release/wwwroot/CNAME
+      run: cp CNAME release/wwwroot/CNAME
 
     # copy index.html to 404.html to serve the same file when a file is not found
     - name: copy index.html to 404.html
       shell: bash
-      run: cp ./release/wwwroot/index.html ./release/wwwroot/404.html
+      run: cp release/wwwroot/index.html release/wwwroot/404.html
 
     # add .nojekyll file to tell GitHub pages to not treat this as a Jekyll project. (Allow files and folders starting with an underscore)
     - name: Add .nojekyll file
       shell: bash
-      run: touch ./release/wwwroot/.nojekyll
+      run: touch release/wwwroot/.nojekyll
+
+    - uses: actions/cache@v2
+      with:
+        path: release/wwwroot
+        key: ${{ inputs.output-file-cache }}
