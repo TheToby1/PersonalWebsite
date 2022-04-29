@@ -11,6 +11,7 @@ runs:
 
     # publishes the Blazor project to the release folder
     - name: Publish .NET Project
+      shell: bash
       run: dotnet publish TheToby1.github.io.csproj -c Release -o release --nologo
     
     # copy the CNAME file into the release folder to allow a custom domain
