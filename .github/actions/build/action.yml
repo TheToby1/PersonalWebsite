@@ -1,5 +1,5 @@
 name: build
-shell: bash
+
 runs:
   using: "composite"
   steps:
@@ -15,14 +15,17 @@ runs:
     
     # copy the CNAME file into the release folder to allow a custom domain
     - name: copy CNAME to CNAME
+      shell: bash
       run: cp CNAME release/wwwroot/CNAME
 
     # copy index.html to 404.html to serve the same file when a file is not found
     - name: copy index.html to 404.html
+      shell: bash
       run: cp release/wwwroot/index.html release/wwwroot/404.html
 
     # add .nojekyll file to tell GitHub pages to not treat this as a Jekyll project. (Allow files and folders starting with an underscore)
     - name: Add .nojekyll file
+      shell: bash
       run: touch release/wwwroot/.nojekyll
   # test:
   #   needs: build
