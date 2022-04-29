@@ -10,29 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       # uses GitHub's checkout action to checkout code from the main branch
-      - uses: actions/checkout@v2
-      
-      # sets up .NET SDK
-      - name: Setup .NET SDK
-        uses: actions/setup-dotnet@v1
-        with:
-          dotnet-version: 6.0.x
-
-      # publishes the Blazor project to the release folder
-      - name: Publish .NET Project
-        run: dotnet publish TheToby1.github.io.csproj -c Release -o release --nologo
-      
-      # copy the CNAME file into the release folder to allow a custom domain
-      - name: copy CNAME to CNAME
-        run: cp CNAME release/wwwroot/CNAME
-
-      # copy index.html to 404.html to serve the same file when a file is not found
-      - name: copy index.html to 404.html
-        run: cp release/wwwroot/index.html release/wwwroot/404.html
-
-      # add .nojekyll file to tell GitHub pages to not treat this as a Jekyll project. (Allow files and folders starting with an underscore)
-      - name: Add .nojekyll file
-        run: touch release/wwwroot/.nojekyll
+      - uses: ./.github/workflows/build.yml
   # test:
   #   needs: build
   #   runs-on: ubuntu-latest
