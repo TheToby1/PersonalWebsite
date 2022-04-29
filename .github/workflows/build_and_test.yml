@@ -11,7 +11,7 @@ jobs:
     steps:
       # uses GitHub's checkout action to checkout code from the main branch
       - uses: actions/checkout@v2
-      - uses: ./.github/workflows/build.yml
+      - uses: ./.github/actions/build
   # test:
   #   needs: build
   #   runs-on: ubuntu-latest

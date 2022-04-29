@@ -3,9 +3,6 @@ name: build
 runs:
   using: "composite"
   steps:
-    # uses GitHub's checkout action to checkout code from the main branch
-    - uses: actions/checkout@v2
-    
     # sets up .NET SDK
     - name: Setup .NET SDK
       uses: actions/setup-dotnet@v1
