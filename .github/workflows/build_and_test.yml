@@ -1,0 +1,17 @@
+name: build_and_test
+
+on:
+  pull_request:
+    branches: [ release ]
+
+jobs:
+  build:
+    # use ubuntu-latest image to run steps on
+    runs-on: ubuntu-latest
+    steps:
+      # uses GitHub's checkout action to checkout code from the main branch
+      - uses: actions/checkout@v2
+      - uses: ./.github/actions/build
+  # test:
+  #   needs: build
+  #   runs-on: ubuntu-latest

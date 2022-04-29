@@ -1,0 +1,31 @@
+# Based on SwimBurgers tutorial https://swimburger.net/blog/dotnet/how-to-deploy-aspnet-blazor-webassembly-to-github-pages
+name: Deploy to GitHub Pages
+
+# Run workflow on every push to my release branch
+on:
+  push:
+    branches: [ release ]
+
+jobs:
+  build:
+    # use ubuntu-latest image to run steps on
+    runs-on: ubuntu-latest
+    steps:
+      # uses GitHub's checkout action to checkout code from the main branch
+      - uses: actions/checkout@v2
+      - uses: ./.github/actions/build
+  
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/cache@v2
+        with:
+          path: release/wwwroot
+          key: build_output
+      - name: Commit wwwroot to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@3.7.1
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: main
+          FOLDER: release/wwwroot
