@@ -8,7 +8,7 @@
     }
   },
   "profiles": {
-    "TheToby1.github.io": {
+    "Personal-Website": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,
