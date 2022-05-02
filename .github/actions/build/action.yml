@@ -29,7 +29,8 @@ runs:
       shell: bash
       run: touch release/wwwroot/.nojekyll
 
-    - uses: actions/cache@v3
-      with:
-        path: release/wwwroot
-        key: build_output
+    - name: Upload Artifacts 🔺 # The project is then uploaded as an artifact named 'site'.
+        uses: actions/upload-artifact@v3
+        with:
+          name: site
+          path: release/wwwroot

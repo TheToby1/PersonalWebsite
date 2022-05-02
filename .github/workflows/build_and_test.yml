@@ -2,7 +2,7 @@ name: build_and_test
 
 on:
   pull_request:
-    branches: [ release ]
+    branches: [ main ]
 
 jobs:
   build:
@@ -10,8 +10,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       # uses GitHub's checkout action to checkout code from the main branch
-      - uses: actions/checkout@v2
-      - uses: ./.github/actions/build
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Build
+        uses: ./.github/actions/build
   # test:
   #   needs: build
   #   runs-on: ubuntu-latest
