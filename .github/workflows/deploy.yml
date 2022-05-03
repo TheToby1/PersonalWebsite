@@ -12,19 +12,24 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       # uses GitHub's checkout action to checkout code from the main branch
-      - uses: actions/checkout@v3.0.2
-      - uses: ./.github/actions/build
+      - name: Checkout
+        - uses: actions/checkout@v3.0.2
+      - name: Build
+        - uses: ./.github/actions/build
   
   deploy:
+    concurrency: ci-${{ github.ref }}
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/cache@v3.0.2
+      - name: Checkout
+        - uses: actions/checkout@v3.0.2
+      - name: Download Artifacts # The built project is downloaded into the 'site' folder.
+        uses: actions/download-artifact@v3
         with:
-          path: release/wwwroot
-          key: build_output
-      - name: Commit wwwroot to GitHub Pages
+          name: site
+      - name: Commit site to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4.3.3
         with:
           branch: gh-pages
-          folder: release/wwwroot
+          folder: 'site'
