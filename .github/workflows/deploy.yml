@@ -13,9 +13,9 @@ jobs:
     steps:
       # uses GitHub's checkout action to checkout code from the main branch
       - name: Checkout
-        - uses: actions/checkout@v3.0.2
+        uses: actions/checkout@v3.0.2
       - name: Build
-        - uses: ./.github/actions/build
+        uses: ./.github/actions/build
   
   deploy:
     concurrency: ci-${{ github.ref }}
@@ -23,7 +23,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        - uses: actions/checkout@v3.0.2
+        uses: actions/checkout@v3.0.2
       - name: Download Artifacts # The built project is downloaded into the 'site' folder.
         uses: actions/download-artifact@v3
         with:
