@@ -12,7 +12,7 @@ jobs:
       # uses GitHub's checkout action to checkout code from the main branch
       - name: Checkout
         uses: actions/checkout@v3
-      name: Build
+      - name: Build
         uses: ./.github/actions/build
   # test:
   #   needs: build
