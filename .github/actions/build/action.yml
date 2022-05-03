@@ -29,7 +29,7 @@ runs:
       shell: bash
       run: touch release/wwwroot/.nojekyll
 
-    - uses: actions/cache@v3
+    - uses: actions/cache@v3.0.2
       with:
         path: release/wwwroot
         key: build_output
