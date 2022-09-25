@@ -1,21 +1,23 @@
 ﻿@inherits LayoutComponentBase
 
-<MudThemeProvider/>
-<MudDialogProvider/>
-<MudSnackbarProvider/>
+<MudThemeProvider />
+<MudDialogProvider />
+<MudSnackbarProvider />
 
-<div class="page">
-    <div class="sidebar">
-        <NavMenu />
-    </div>
-
-    <main>
-        <div class="top-row px-4">
-            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
-        </div>
-
-        <article class="content px-4">
+<MudLayout>
+    <MudAppBar Class="align-center" Elevation="0">
+        <MudNavLink Href="blog" Match="NavLinkMatch.Prefix">Blog</MudNavLink>
+        <MudNavLink Href="" Match="NavLinkMatch.All">TheToby</MudNavLink>
+        <MudNavLink Href="projects" Match="NavLinkMatch.Prefix">Projects</MudNavLink>
+    </MudAppBar>
+    <MudMainContent>
+        <MudContainer MaxWidth="MaxWidth.Large" Class="my-16 pt-16">
             @Body
-        </article>
-    </main>
-</div>
+        </MudContainer>
+    </MudMainContent>
+    <MudAppBar Class="align-center" Bottom="true" Elevation="0" Dense="true">
+        <MudIconButton Icon="@Icons.Custom.Brands.GitHub" Color="Color.Inherit" Link="https://github.com/MudBlazor/MudBlazor/" Target="_blank" />
+        <MudIconButton Icon="@Icons.Custom.Brands.Microsoft" Color="Color.Inherit" Link="https://dotnet.microsoft.com/en-us/apps/aspnet/web-apps/blazor" Target="_blank" />
+        <MudIconButton Icon="@Icons.Custom.Brands.MudBlazor" Color="Color.Inherit" Link="https://mudblazor.com/" Target="_blank" />
+    </MudAppBar>
+</MudLayout>
