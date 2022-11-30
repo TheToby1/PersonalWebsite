@@ -1,11 +1,27 @@
-﻿@page "/blog"
+﻿<!--atpage "/blog"-->
 
 <PageTitle>TheToby - Blog</PageTitle>
 
-<MudDrawer ClipMode="clipMode" OpenMiniOnHover="true" Variant="DrawerVariant.Mini" Elevation="1">
-    <MudNavLink>Today</MudNavLink>
+<MudDrawer @bind-Open="MainLayout.DrawerOpen" Variant="@DrawerVariant.Responsive" ClipMode="@DrawerClipMode.Always" Elevation="1" class="z-10">
+    <MudDrawerHeader>
+        <MudText Typo="Typo.h6">Blogs</MudText>
+    </MudDrawerHeader>
+    <MudNavMenu>
+        <MudNavLink Href="blog" Match="NavLinkMatch.Prefix">Latest</MudNavLink>
+    </MudNavMenu>
 </MudDrawer>
 
-@code {
-    DrawerClipMode clipMode = DrawerClipMode.Never;
+<MudContainer MaxWidth="MaxWidth.Large" Class="my-5 pt-5">
+    <MudText Typo="Typo.h3" GutterBottom="true">This is the title!</MudText>
+    <MudText Class="mb-8">Blog posts will appear in this space looking something like this.</MudText>
+</MudContainer>
+
+@code{
+    [CascadingParameter]
+    public MainLayout MainLayout { get; set; } 
+
+    protected override void OnInitialized()
+    {
+        MainLayout.SetDrawerToggleDisabled(false);
+    }
 }
