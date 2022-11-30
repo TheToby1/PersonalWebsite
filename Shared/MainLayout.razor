@@ -5,19 +5,52 @@
 <MudSnackbarProvider />
 
 <MudLayout>
-    <MudAppBar Class="align-center" Elevation="0">
-        <MudNavLink Href="blog" Match="NavLinkMatch.Prefix">Blog</MudNavLink>
-        <MudNavLink Href="" Match="NavLinkMatch.All">TheToby</MudNavLink>
-        <MudNavLink Href="projects" Match="NavLinkMatch.Prefix">Projects</MudNavLink>
+    <MudAppBar Elevation="0" Class="z-50">
+        <MudIconButton @bind-Disabled="_drawerToggleDisabled" Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
+        <MudContainer Style="height:inherit" MaxWidth="MaxWidth.Small" Class="d-inline-flex flex-row flex-grow-1 gap-2 align-center justify-center">
+            <!-- <MudNavLink Class="d-flex" Href="blog" Match="NavLinkMatch.Prefix">
+                <MudText Class="mr-3" Align="@Align.Center">Blog</MudText>
+            </MudNavLink> -->
+            <MudPaper Class="d-inline-flex flex-shrink-0 flex-auto" Width="10%" />
+            <MudLink Style="max-height:100%" Class="d-inline-flex flex-auto align-center justify-center ma-0 pa-0" Href="">
+                <MudIcon Style="padding-top:2px; height:100%; min-width:100px; width:35%; color:white" Class="d-inline-flex flex-grow" ViewBox="0 0 44.957 24" Icon="@Custom_Icons.TheToby" Title="TheToby" />
+            </MudLink>
+            <MudPaper Class="d-inline-flex flex-auto" Width="10%" />
+            <!-- <MudNavLink Class="d-flex" Href="projects" Match="NavLinkMatch.Prefix">
+                <MudText Class="mr-3" Align="@Align.Center">Projects</MudText>
+            </MudNavLink> -->
+        </MudContainer>
     </MudAppBar>
     <MudMainContent>
-        <MudContainer MaxWidth="MaxWidth.Large" Class="my-16 pt-16">
+        <CascadingValue Value="this">
             @Body
-        </MudContainer>
+        </CascadingValue>
     </MudMainContent>
-    <MudAppBar Class="align-center" Bottom="true" Elevation="0" Dense="true">
-        <MudIconButton Icon="@Icons.Custom.Brands.GitHub" Color="Color.Inherit" Link="https://github.com/MudBlazor/MudBlazor/" Target="_blank" />
-        <MudIconButton Icon="@Icons.Custom.Brands.Microsoft" Color="Color.Inherit" Link="https://dotnet.microsoft.com/en-us/apps/aspnet/web-apps/blazor" Target="_blank" />
-        <MudIconButton Icon="@Icons.Custom.Brands.MudBlazor" Color="Color.Inherit" Link="https://mudblazor.com/" Target="_blank" />
+    <MudAppBar Class="align-center z-50" Bottom="true" Elevation="0" Dense="true">
+        <MudIconButton Icon="@Icons.Custom.Brands.GitHub" Color="Color.Inherit" Link="https://github.com/TheToby1" Target="_blank" />
+        <MudIconButton Icon="@Custom_Icons.Mastodon" Color="Color.Inherit" Link=@($"https://social.vivaldi.net/@TheToby") Target="_blank" />
+        <p hidden=True><a rel="me" href=@($"https://social.vivaldi.net/@TheToby")></a></p>
+        <MudIconButton Icon="@Icons.Custom.Brands.LinkedIn" Color="Color.Inherit" Link="https://linkedin.com/in/TobyBurns" Target="_blank" />
+        <!-- ToDo: Add Bookwyrm-->
     </MudAppBar>
 </MudLayout>
+
+@code {
+    public bool DrawerOpen { get; set; } = false;
+    bool _drawerToggleDisabled = true;
+
+    void DrawerToggle()
+    {
+        DrawerOpen = !DrawerOpen;
+    }
+
+    public void SetDrawerToggleDisabled(bool disabled)
+    {
+        _drawerToggleDisabled = disabled;
+        if (_drawerToggleDisabled)
+        {
+            DrawerOpen = false;
+        }
+        InvokeAsync(() => StateHasChanged());
+    }
+}

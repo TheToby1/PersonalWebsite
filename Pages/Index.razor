@@ -2,8 +2,21 @@
 
 <PageTitle>TheToby</PageTitle>
 
-<MudText Typo="Typo.h3" GutterBottom="true">Hello, world!</MudText>
-<MudText Class="mb-8">Welcome to my new website which is currently under 
-    construction, I'll be slowly adding new features as I learn Blazor 
-    and Mudblazor. The aim of this is just to have a space in whice to 
-    post blogs and host my projects.'.</MudText>
+<MudContainer MaxWidth="MaxWidth.Large" Class="my-5 pt-5">
+    <!-- ToDo: remove the align centers after consturction -->
+    <MudText Typo="Typo.h3" Align=Align.Center GutterBottom="true">Under construction!</MudText>
+    <MudText Align=Align.Center Class="mb-8">Welcome to my new website which is currently under 
+        construction, I'll be slowly adding new features as I learn Blazor 
+        and Mudblazor. The aim of this is just to have a space in whice to 
+        post blogs and host my projects.</MudText>
+</MudContainer>
+
+@code{
+    [CascadingParameter]
+    public MainLayout MainLayout { get; set; } 
+
+    protected override void OnInitialized()
+    {
+        MainLayout.SetDrawerToggleDisabled(true);
+    }
+}

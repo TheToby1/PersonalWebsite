@@ -1,17 +1,18 @@
-﻿@page "/projects"
+﻿<!-- atpage "/projects" -->
 
 <PageTitle>TheToby - Projects</PageTitle>
 
-<MudText Typo="Typo.h3" GutterBottom="true">Counter</MudText>
-<MudText Class="mb-4">Current count: @currentCount</MudText>
-<MudButton Color="Color.Primary" Variant="Variant.Filled" @onclick="IncrementCount">Click me</MudButton>
+<MudContainer MaxWidth="MaxWidth.Large" Class="my-5 pt-5">
+    <MudText Typo="Typo.h3" GutterBottom="true">This will be a bunch of cards!</MudText>
+    <MudText Class="mb-8">Cards will be displayed here each linking to a project on github/added manually</MudText>
+</MudContainer>
 
+@code{
+    [CascadingParameter]
+    public MainLayout MainLayout { get; set; } 
 
-@code {
-    private int currentCount = 0;
-
-    private void IncrementCount()
+    protected override void OnInitialized()
     {
-        currentCount++;
+        MainLayout.SetDrawerToggleDisabled(true);
     }
 }
