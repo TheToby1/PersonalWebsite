@@ -2,7 +2,7 @@
 
 <PageTitle>TheToby - Blog</PageTitle>
 
-<MudDrawer @bind-Open="MainLayout.DrawerOpen" Variant="@DrawerVariant.Responsive" ClipMode="@DrawerClipMode.Always" Elevation="1" class="z-10">
+<MudDrawer @bind-Open="IsDrawerOpen" Variant="@DrawerVariant.Responsive" ClipMode="@DrawerClipMode.Always" Elevation="1" class="z-10">
     <MudDrawerHeader>
         <MudText Typo="Typo.h6">Blogs</MudText>
     </MudDrawerHeader>
@@ -18,10 +18,17 @@
 
 @code{
     [CascadingParameter]
-    public MainLayout MainLayout { get; set; } 
+    public MainLayout? MainLayout { get; set; } 
 
     protected override void OnInitialized()
     {
-        MainLayout.SetDrawerToggleDisabled(false);
+        if(MainLayout != null)
+            MainLayout.SetDrawerToggleDisabled(false);
+    }
+
+    private bool IsDrawerOpen 
+    { 
+        get { return MainLayout == null ? false : MainLayout.DrawerOpen; }
+        set { if (MainLayout != null)  MainLayout.DrawerOpen = value; }
     }
 }

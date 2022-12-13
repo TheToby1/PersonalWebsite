@@ -13,10 +13,11 @@
 
 @code{
     [CascadingParameter]
-    public MainLayout MainLayout { get; set; } 
+    public MainLayout? MainLayout { get; set; } 
 
     protected override void OnInitialized()
     {
-        MainLayout.SetDrawerToggleDisabled(true);
+        if (MainLayout != null)
+            MainLayout.SetDrawerToggleDisabled(true);
     }
 }
