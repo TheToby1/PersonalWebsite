@@ -10,6 +10,16 @@
     <link href="css/app.css" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
     <link href="_content/MudBlazor/MudBlazor.min.css" rel="stylesheet" />
+    <script>
+        function saveAsFile(filename, bytesBase64) {
+            var link = document.createElement('a');
+            link.download = filename;
+            link.href = "data:application/octet-stream;base64," + bytesBase64;
+            document.body.appendChild(link); // Needed for Firefox
+            link.click();
+            document.body.removeChild(link);
+        }
+    </script>
 </head>
 
 <body>
@@ -20,7 +30,7 @@
                 <div class="spinner-border" role="status"></div>
                 TheToby's website is loading ...
             </div>
-            <p hidden=True><a rel="me" href="https://social.vivaldi.net/@TheToby">Mastodon</a></a></p>
+            <p hidden=True><a rel="me" href="https://social.vivaldi.net/@TheToby">Mastodon</a></p>
         </div>
     </div>
 
