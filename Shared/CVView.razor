@@ -1,0 +1,47 @@
+﻿@if (CVSection != null)
+{
+    @if (CVSection.SubSections.Count == 0)
+    {
+        <MudText Typo="Typo.h5">
+            @((MarkupString)CVSection.Title)
+        </MudText>
+
+        @if (CVSection.SubTitle != null)
+        {
+            <MudText Typo="Typo.h6">
+                @((MarkupString)CVSection.SubTitle)
+            </MudText>
+        }
+
+        @if (DetailedView && CVSection.Description != null)
+        {
+            @((MarkupString)CVSection.Description)
+        }
+
+    }
+    else
+    {
+        @if (!DetailedView && String.IsNullOrEmpty(CVSection.ImagePath))
+        {
+            <br />
+            <hr style="border:none;height:4px;background-color:#333" />
+            <MudText Typo="Typo.h4">
+                @((MarkupString)CVSection.Title)
+            </MudText>
+            <hr style="width:100%;border:none;height:2px;background-color:#333" />
+        }
+        @foreach (CVSection cvSection in CVSection.SubSections)
+        {
+            <CVView CVSection="@cvSection" DetailedView="@DetailedView" />
+        }
+    }
+}
+
+@code
+{
+    [Parameter]
+    public CVSection? CVSection { get; set; }
+
+    [Parameter]
+    public bool DetailedView { get; set; }
+}
