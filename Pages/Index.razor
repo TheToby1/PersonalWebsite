@@ -1,23 +1,51 @@
 ﻿@page "/"
+@inject ICVService CVService
+@inject ILogger<Index> IndexLogger
+@inject IJSRuntime js
 
 <PageTitle>TheToby</PageTitle>
 
-<MudContainer MaxWidth="MaxWidth.Large" Class="my-5 pt-5">
-    <!-- ToDo: remove the align centers after consturction -->
-    <MudText Typo="Typo.h3" Align=Align.Center GutterBottom="true">Under construction!</MudText>
-    <MudText Align=Align.Center Class="mb-8">Welcome to my new website which is currently under 
-        construction, I'll be slowly adding new features as I learn Blazor 
-        and Mudblazor. The aim of this is just to have a space in whice to 
-        post blogs and host my projects.</MudText>
+<MudDrawerWithSocials>
+    <ChildContent>
+        <MudButton OnClick="@OnHomeButtonClick">Home</MudButton>
+        <MudTreeView Items="@CV?.SubSections" T="CVSection" Hover="true" @bind-SelectedValue="@SelectedValue">
+            <ItemTemplate>
+                <MudTreeViewItem Items="@context.SubSections" Value="@context" Text="@context.Title" />
+            </ItemTemplate>
+        </MudTreeView>
+    </ChildContent>
+</MudDrawerWithSocials>
+
+<MudContainer MaxWidth="MaxWidth.Medium" Class="my-5 pt-5">    
+    <div class="d-flex justify-center">
+        <MudImage ObjectPosition="ObjectPosition.Center" Src="@CV?.ImagePath" Alt="Tobias Profile Image" Elevation="25" Class="rounded-lg" Height="200" />
+    </div>
+    <hr style="width:30%;margin-left:auto;margin-right:auto;height:2px;border: none;background-color: #333;" />
+    <MudText Align=Align.Center Typo="Typo.h1">
+        @CV?.Title
+    </MudText>
+    @if (!DetailedView)
+    {
+        <MudText Align=Align.Center>
+             @((MarkupString)CV?.Description)
+        </MudText>
+    }
+    <CVView CVSection="@SelectedValue" DetailedView="@DetailedView"/>
 </MudContainer>
 
-@code{
-    [CascadingParameter]
-    public MainLayout? MainLayout { get; set; } 
+@code {
+    private CVSection? CV;
+    private CVSection? SelectedValue;
+    private bool DetailedView { get { return SelectedValue != CV; } }
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        if (MainLayout != null)
-            MainLayout.SetDrawerToggleDisabled(true);
+        CV = await CVService.GetCVAsync();
+        SelectedValue = CV;
+    }
+
+    private void OnHomeButtonClick()
+    {
+        SelectedValue = CV;
     }
 }
