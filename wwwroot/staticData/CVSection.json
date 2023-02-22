@@ -1,7 +1,7 @@
 {
     "Title": "Tobias Burns",
     "SubTitle": "Software Developer",
-    "Description": "Welcome to my website! My name is Tobias Burns, and I&#x27;m a recent transplant to Toronto from Ireland. On this website, you&#x27;ll find information about me, my interests, and my various projects. I have a passion for programming, music and gaming, and I enjoy using my working on interesting and exciting projects. On this site, you&#x27;ll find information about my background, as well as details about the projects I&#x27;ve worked on. The website is still under construction. It&#x27;s built using Blazor, and I have made the source code available on my GitHub page. In addition, you can find links to my social media accounts in the sidebar. Thank you for visiting my site, and I hope you enjoy learning more about me and my work.",
+    "Description": "Welcome to my website! My name is Tobias Burns, and I&#x27;m a recent transplant to Toronto from Ireland. On this website, you&#x27;ll find information about me, my interests, and my various projects. I have a passion for programming, music and gaming, and I enjoy working on interesting and exciting projects. On this site, you&#x27;ll find information about my background, as well as details about the projects I&#x27;ve worked on. The website is still under construction. It&#x27;s built using Blazor, and I have made the source code available on my GitHub page. In addition, you can find links to my social media accounts in the sidebar. Thank you for visiting my site, and I hope you enjoy learning more about me and my work.",
     "ImagePath": "staticData/profile.jpg",
     "SubSections": [
         {
