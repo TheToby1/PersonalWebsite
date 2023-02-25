@@ -1,4 +1,6 @@
 ﻿@inherits LayoutComponentBase
+@using MudBlazor.Services
+@implements IAsyncDisposable
 
 <MudThemeProvider />
 <MudDialogProvider />
@@ -36,20 +38,49 @@
 
 @code {
     public bool DrawerOpen { get; set; } = true;
-    bool _drawerToggleDisabled = true;
 
     void DrawerToggle()
     {
         DrawerOpen = !DrawerOpen;
     }
 
-    public void SetDrawerToggleDisabled(bool disabled)
+    [Inject] IBreakpointService BreakpointService { get; set; } = default!;
+
+    private Guid _subscriptionId;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        _drawerToggleDisabled = disabled;
-        if (_drawerToggleDisabled)
+        if (firstRender)
         {
-            DrawerOpen = false;
+            var args = await BreakpointService.Subscribe((breakpoint) =>
+            {
+                breakpoint = BreakpointService.GetBreakpoint().Result;
+                if(breakpoint == Breakpoint.Xs || breakpoint == Breakpoint.Sm)
+                {
+                    DrawerOpen = false;
+                }
+                else
+                {
+                    DrawerOpen = true;
+                }
+                InvokeAsync(StateHasChanged);
+            }, new ResizeOptions
+                {
+                    ReportRate = 50,
+                    NotifyOnBreakpointOnly = true,
+                });
+
+            _subscriptionId = args.SubscriptionId;
+            if (args.Breakpoint == Breakpoint.Xs || args.Breakpoint == Breakpoint.Sm)
+            {
+                DrawerOpen = false;
+            }
+            
+            StateHasChanged();
         }
-        InvokeAsync(() => StateHasChanged());
+
+        await base.OnAfterRenderAsync(firstRender);
     }
+
+    public async ValueTask DisposeAsync() => await BreakpointService.Unsubscribe(_subscriptionId);
 }
