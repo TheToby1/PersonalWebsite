@@ -1,9 +1,9 @@
 ﻿@if (CVSection != null)
 {
     @if (CVSection.SubSections.Count == 0)
-    {
+    { 
         <MudText Typo="Typo.h5">
-            @((MarkupString)CVSection.Title)
+            @((MarkupString)(CVSection.Title ?? ""))
         </MudText>
 
         @if (CVSection.SubTitle != null)
@@ -15,7 +15,9 @@
 
         @if (DetailedView && CVSection.Description != null)
         {
-            @((MarkupString)CVSection.Description)
+            <MudText Style="text-align: justify;">
+                @((MarkupString)CVSection.Description)
+            </MudText>
         }
 
     }
@@ -26,12 +28,13 @@
             <br />
             <hr style="border:none;height:4px;background-color:#333" />
             <MudText Typo="Typo.h4">
-                @((MarkupString)CVSection.Title)
+                @((MarkupString)(CVSection.Title ?? ""))
             </MudText>
             <hr style="width:100%;border:none;height:2px;background-color:#333" />
         }
         @foreach (CVSection cvSection in CVSection.SubSections)
         {
+            <br />
             <CVView CVSection="@cvSection" DetailedView="@DetailedView" />
         }
     }
