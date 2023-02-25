@@ -21,13 +21,15 @@
         <MudImage ObjectPosition="ObjectPosition.Center" Src="@CV?.ImagePath" Alt="Tobias Profile Image" Elevation="25" Class="rounded-lg" Height="200" />
     </div>
     <hr style="width:30%;margin-left:auto;margin-right:auto;height:2px;border: none;background-color: #333;" />
+
     <MudText Align=Align.Center Typo="Typo.h1">
         @CV?.Title
     </MudText>
+
     @if (!DetailedView)
     {
         <MudText Align=Align.Center>
-             @((MarkupString)CV?.Description)
+             @((MarkupString)(CV?.Description ?? ""))
         </MudText>
     }
     <CVView CVSection="@SelectedValue" DetailedView="@DetailedView"/>
@@ -35,7 +37,15 @@
 
 @code {
     private CVSection? CV;
-    private CVSection? SelectedValue;
+
+    private CVSection? _selectedValue;
+    private CVSection? SelectedValue {
+        get { return _selectedValue; }
+        set {
+            if (value == null) return;
+            else _selectedValue = value;
+        } 
+    }
     private bool DetailedView { get { return SelectedValue != CV; } }
 
     protected override async Task OnInitializedAsync()
