@@ -12,7 +12,7 @@ runs:
     # publishes the Blazor project to the release folder
     - name: Publish .NET Project
       shell: bash
-      run: dotnet publish Personal-Website.csproj -c Release -o release --nologo
+      run: dotnet publish PersonalWebsite.csproj -c Release -o release --nologo
     
     # copy the CNAME file into the release folder to allow a custom domain
     - name: copy CNAME to CNAME

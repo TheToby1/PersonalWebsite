@@ -1,7 +1,7 @@
 ﻿using MudBlazor;
 using System.IO;
 
-namespace Personal_Website.Shared
+namespace PersonalWebsite.Shared
 {
     public class Custom_Icons
     {
