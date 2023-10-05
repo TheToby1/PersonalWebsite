@@ -1,0 +1,40 @@
+# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
+# More GitHub Actions for Azure: https://github.com/Azure/actions
+
+name: Build and deploy ASP.Net Core app to Azure Web App - app-personalwebsite-prod-weu
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      # uses GitHub's checkout action to checkout code from the main branch
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Build
+        uses: ./.github/actions/build
+
+  deploy:
+    runs-on: windows-latest
+    needs: build
+    environment:
+      name: 'production'
+      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+
+    steps:
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v3
+        with:
+          name: full-site
+
+      - name: Deploy to Azure Web App
+        id: deploy-to-webapp
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: 'app-personalwebsite-prod-weu'
+          slot-name: 'production'
+          publish-profile: ${{ secrets.AzureAppService_PublishProfile_0948ce7c46294ab4a15dfed71126407a }}
+          package: .
