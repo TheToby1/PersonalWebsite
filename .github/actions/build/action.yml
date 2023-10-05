@@ -14,21 +14,21 @@ runs:
 
     - name: dotnet publish
       shell: bash
-      run: dotnet publish -c Release --property:PublishDir=${{github.workspace}}/release
+      run: dotnet publish -c Release --property:PublishDir='${{github.workspace}}/release'
 
     # ToDo: Custom domains in azure cost money
     # copy the CNAME file into the release folder to allow a custom domain
     # - name: copy CNAME to CNAME
     #  shell: bash
-    #  run: cp CNAME ${{env.DOTNET_ROOT}}/release/wwwroot/CNAME
+    #  run: cp CNAME '${{github.workspace}}/release/wwwroot/CNAME'
 
     # copy index.html to 404.html to serve the same file when a file is not found
     - name: copy index.html to 404.html
       shell: bash
-      run: cp ${{github.workspace}}/release/wwwroot/index.html ${{github.workspace}}/release/wwwroot/404.html
+      run: cp '${{github.workspace}}/release/wwwroot/index.html' '${{github.workspace}}/release/wwwroot/404.html'
 
     - name: Upload artifact for deployment job
       uses: actions/upload-artifact@v2
       with:
         name: full-site
-        path: ${{github.workspace}}/release
+        path: '${{github.workspace}}/release'
