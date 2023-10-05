@@ -1,5 +1,5 @@
 # Based on SwimBurgers tutorial https://swimburger.net/blog/dotnet/how-to-deploy-aspnet-blazor-webassembly-to-github-pages
-name: Deploy to GitHub Pages
+name: Build and deploy to GitHub Pages
 
 # Run workflow on every push to my release branch
 on:
@@ -15,7 +15,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
       - name: Build
-        uses: ./.github/actions/build
+        uses: ./.github/actions/build_static
   
   deploy:
     concurrency: ci-${{ github.ref }}
@@ -27,8 +27,8 @@ jobs:
       - name: Download Artifacts # The built project is downloaded into the 'site' folder.
         uses: actions/download-artifact@v3
         with:
-          name: site
-          path: site
+          name: static-site
+          path: static-site
       - name: Commit site to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
         with:
