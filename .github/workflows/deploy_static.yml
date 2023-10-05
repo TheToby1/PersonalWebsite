@@ -4,7 +4,7 @@ name: Build and deploy to GitHub Pages
 # Run workflow on every push to my release branch
 on:
   push:
-    branches: [ dev ]
+    branches: [ main ]
 
 jobs:
   build:
