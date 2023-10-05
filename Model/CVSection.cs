@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
-namespace Personal_Website
+namespace PersonalWebsite
 {
     /// <summary>
     /// Represents a section in a CV which contains entries

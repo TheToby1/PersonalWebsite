@@ -2,7 +2,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.JSInterop;
 using System.Text.Json;
 
-namespace Personal_Website;
+namespace PersonalWebsite;
 
 public interface ICVService
 {
