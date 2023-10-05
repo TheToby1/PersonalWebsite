@@ -1,0 +1,10 @@
+﻿<MudIconButton Icon="@Icons.Custom.Brands.GitHub" Color=@IconColor Link="https://github.com/TheToby1" Target="_blank" />
+<MudIconButton Icon="@Custom_Icons.Mastodon" Color=@IconColor Link=@($"https://social.vivaldi.net/@TheToby") Target="_blank" />
+<MudIconButton Icon="@Custom_Icons.Bookwyrm" Color=@IconColor Link="https://bookrastinating.com/user/TheToby" Target="_blank" />
+<MudIconButton Icon="@Custom_Icons.Pixelfed" Color=@IconColor Link="https://pixelfed.social/TheToby" Target="_blank" />
+<MudIconButton Icon="@Icons.Custom.Brands.LinkedIn" Color=@IconColor Link="https://linkedin.com/in/TobyBurns" Target="_blank" />
+
+@code {
+    [Parameter]
+    public Color IconColor { get; set; } = Color.Inherit;
+}

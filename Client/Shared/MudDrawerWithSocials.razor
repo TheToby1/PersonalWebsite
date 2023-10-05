@@ -1,0 +1,20 @@
+﻿<MudDrawer @bind-Open="IsDrawerOpen" DisableOverlay=true Variant="@DrawerVariant.Temporary" ClipMode="@DrawerClipMode.Always" Elevation="1" Class="d-flex flex-column z-10">
+    @ChildContent
+    <MudPaper Elevation="0" Outlined="false" Class="flex-fill" />
+    <MudItem Class="d-flex flex-row justify-content-center">
+        <Socials IconColor="Color.Primary"/>
+    </MudItem>
+</MudDrawer>
+
+@code {
+    [CascadingParameter]
+    public MainLayout? MainLayout { get; set; }
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    private bool IsDrawerOpen
+    {
+        get { return MainLayout == null ? false : MainLayout.DrawerOpen; }
+        set { /*if (MainLayout != null) MainLayout.DrawerOpen = value;*/ }
+    }
+}
