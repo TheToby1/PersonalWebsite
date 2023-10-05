@@ -1,5 +1,6 @@
 ﻿@inherits LayoutComponentBase
 @using MudBlazor.Services
+@implements IBrowserViewportObserver
 @implements IAsyncDisposable
 
 <MudThemeProvider />
@@ -44,43 +45,41 @@
         DrawerOpen = !DrawerOpen;
     }
 
-    [Inject] IBreakpointService BreakpointService { get; set; } = default!;
+    [Inject] 
+    IBrowserViewportService BrowserViewportService { get; set; } = default!;
 
-    private Guid _subscriptionId;
+    Guid IBrowserViewportObserver.Id { get; } = Guid.NewGuid();
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
         {
-            var args = await BreakpointService.Subscribe((breakpoint) =>
-            {
-                breakpoint = BreakpointService.GetBreakpoint().Result;
-                if(breakpoint == Breakpoint.Xs || breakpoint == Breakpoint.Sm)
-                {
-                    DrawerOpen = false;
-                }
-                else
-                {
-                    DrawerOpen = true;
-                }
-                InvokeAsync(StateHasChanged);
-            }, new ResizeOptions
-                {
-                    ReportRate = 50,
-                    NotifyOnBreakpointOnly = true,
-                });
-
-            _subscriptionId = args.SubscriptionId;
-            if (args.Breakpoint == Breakpoint.Xs || args.Breakpoint == Breakpoint.Sm)
-            {
-                DrawerOpen = false;
-            }
-            
-            StateHasChanged();
+            await BrowserViewportService.SubscribeAsync(this, fireImmediately: true);
         }
 
         await base.OnAfterRenderAsync(firstRender);
     }
 
-    public async ValueTask DisposeAsync() => await BreakpointService.Unsubscribe(_subscriptionId);
+    public async ValueTask DisposeAsync() => await BrowserViewportService.UnsubscribeAsync(this);
+
+    ResizeOptions IBrowserViewportObserver.ResizeOptions { get; } = new()
+        {
+            ReportRate = 50,
+            NotifyOnBreakpointOnly = true
+        };
+
+    Task IBrowserViewportObserver.NotifyBrowserViewportChangeAsync(BrowserViewportEventArgs browserViewportEventArgs)
+    {
+        var breakpoint = browserViewportEventArgs.Breakpoint;
+        if (breakpoint == Breakpoint.Xs || breakpoint == Breakpoint.Sm) 
+        {
+            DrawerOpen = false;
+        }
+        else
+        {
+            DrawerOpen = true;
+        }
+
+        return InvokeAsync(StateHasChanged);
+    }
 }
