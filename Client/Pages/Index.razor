@@ -1,0 +1,62 @@
+﻿@page "/"
+@using PersonalWebsite.Shared
+@inject ICVService CVService
+@inject ILogger<Index> IndexLogger
+@inject IJSRuntime js
+
+<PageTitle>TheToby</PageTitle>
+
+<MudDrawerWithSocials>
+    <ChildContent>
+        <MudButton OnClick="@OnHomeButtonClick">Home</MudButton>
+        <MudTreeView Items="@CV?.SubSections" T="CVSection" Hover="true" @bind-SelectedValue="@SelectedValue">
+            <ItemTemplate>
+                <MudTreeViewItem Items="@context.SubSections" Value="@context" Text="@context.Title" />
+            </ItemTemplate>
+        </MudTreeView>
+    </ChildContent>
+</MudDrawerWithSocials>
+
+<MudContainer MaxWidth="MaxWidth.Medium" Class="my-5 pt-5">    
+    <div class="d-flex justify-center">
+        <MudImage ObjectPosition="ObjectPosition.Center" Src="@CV?.ImagePath" Alt="Tobias Profile Image" Elevation="25" Class="rounded-lg" Height="200" />
+    </div>
+    <hr style="width:30%;margin-left:auto;margin-right:auto;height:2px;border: none;background-color: #333;" />
+
+    <MudText Align=Align.Center Typo="Typo.h1">
+        @CV?.Title
+    </MudText>
+
+    @if (!DetailedView)
+    {
+        <MudText Align=Align.Center>
+             @((MarkupString)(CV?.Description ?? ""))
+        </MudText>
+    }
+    <CVView CVSection="@SelectedValue" DetailedView="@DetailedView"/>
+</MudContainer>
+
+@code {
+    private CVSection? CV;
+
+    private CVSection? _selectedValue;
+    private CVSection? SelectedValue {
+        get { return _selectedValue; }
+        set {
+            if (value == null) return;
+            else _selectedValue = value;
+        } 
+    }
+    private bool DetailedView { get { return SelectedValue != CV; } }
+
+    protected override async Task OnInitializedAsync()
+    {
+        CV = await CVService.GetCVAsync();
+        SelectedValue = CV;
+    }
+
+    private void OnHomeButtonClick()
+    {
+        SelectedValue = CV;
+    }
+}
