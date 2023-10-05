@@ -14,7 +14,7 @@ runs:
 
     - name: dotnet publish
       shell: bash
-      run: dotnet publish -c Release --property:PublishDir=${{PWD}}/${{env.DOTNET_ROOT}}/release
+      run: dotnet publish -c Release --property:PublishDir=${{github.workspace}}/${{env.DOTNET_ROOT}}/release
 
     # ToDo: Custom domains in azure cost money
     # copy the CNAME file into the release folder to allow a custom domain
