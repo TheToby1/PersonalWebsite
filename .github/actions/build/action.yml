@@ -14,17 +14,17 @@ runs:
 
     - name: dotnet publish
       shell: bash
-      run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/release
+      run: dotnet publish -c Release --property:PublishDir=${{env.DOTNET_ROOT}}/release
 
     # copy the CNAME file into the release folder to allow a custom domain
     - name: copy CNAME to CNAME
       shell: bash
-      run: cp CNAME release/wwwroot/CNAME
+      run: cp CNAME ${{env.DOTNET_ROOT}}/release/wwwroot/CNAME
 
     # copy index.html to 404.html to serve the same file when a file is not found
     - name: copy index.html to 404.html
       shell: bash
-      run: cp release/wwwroot/index.html release/wwwroot/404.html
+      run: cp release/wwwroot/index.html ${{env.DOTNET_ROOT}}/release/wwwroot/404.html
 
     - name: Upload artifact for deployment job
       uses: actions/upload-artifact@v2
