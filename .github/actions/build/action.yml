@@ -1,4 +1,4 @@
-name: build_static
+name: build
 
 runs:
   using: "composite"
