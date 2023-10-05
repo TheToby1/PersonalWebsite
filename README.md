@@ -1,4 +1,4 @@
-# TheToby Personal-Website
+# TheToby's Personal Website
 
 ## This website was created using the following
 
