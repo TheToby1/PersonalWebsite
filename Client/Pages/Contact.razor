@@ -1,0 +1,56 @@
+﻿@page "/contact"
+@using System.ComponentModel.DataAnnotations
+@using PersonalWebsite.Client.Shared.Socials
+@using PersonalWebsite.Shared.Contact
+@using PersonalWebsite.Shared.Messaging
+@inject ISnackbar Snackbar
+@inject IContactService ContactService
+@inject HttpClient httpClient
+
+<PageTitle>TheToby - Contact</PageTitle>
+
+
+<MudContainer MaxWidth="MaxWidth.Large" Class="my-5 pt-5">
+    <MudGrid Justify=Justify.Center>
+        <MudItem xs="12"><MudText Typo="Typo.h3" GutterBottom="true">Contact</MudText></MudItem>
+        <MudItem xs="12"><MudText Class="mb-8">Please use this form to send me an email or interact with me on any of my socials.</MudText></MudItem>
+        <MudItem xs="12" Class="d-flex justify-center flex-grow-1">
+            <MudPaper Width="75%" Class="pa-4 object-center">
+                <MudForm @ref="form" @bind-IsValid="@isFormValid" @bind-Errors="@errors">
+                    <MudTextField @bind-Value="message.From" T="string" Label="Your Email" Required="true" RequiredError="Email is required!"
+                                  Validation="@(new EmailAddressAttribute() {ErrorMessage = "The email address is invalid"})" />
+                    <MudTextField @bind-Value="message.Subject" T="string" Label="Subject" HelperText="" InputType="InputType.Text" />
+                    <MudTextField @bind-Value="message.Content" Lines="5" T="string" Label="Content" HelperText="" InputType="InputType.Text" />
+                    <div class="mt-2 d-flex align-center justify-space-between">
+                        <MudButton Variant="Variant.Filled" Color="Color.Primary" Disabled="@(!isFormValid)" Class="ml-auto" OnClick=@SendCommunication>Send Email</MudButton>
+                    </div>
+                </MudForm>
+            </MudPaper>
+        </MudItem>
+        <MudItem xs="4" Class="d-flex flex-row justify-center">
+            <Socials IconSize=3f IconColor=Color.Primary IconGap="5%"/>
+        </MudItem>
+    </MudGrid>
+</MudContainer>
+
+
+@code{
+    bool isFormValid;
+    string[] errors = { };
+    MudForm? form;
+    ContactRequest message = new ContactRequest();
+
+    protected async Task SendCommunication()
+    {
+        if (!isFormValid) 
+        { 
+            Snackbar.Add($"The form is not valid: {String.Join(", ", errors)}", Severity.Error);
+            return;
+        }
+        Console.WriteLine(message.From);
+
+        var result = await ContactService.SendAsync(message);
+        var severity = (((int)result.ResponseCode >= 200) && ((int)result.ResponseCode <= 299)) ? Severity.Success : Severity.Error;
+        Snackbar.Add(result.Response, severity);
+    }
+}

@@ -1,9 +1,9 @@
-﻿<MudDrawer @bind-Open="IsDrawerOpen" DisableOverlay=true Variant="@DrawerVariant.Temporary" ClipMode="@DrawerClipMode.Always" Elevation="1" Class="d-flex flex-column z-10">
+﻿<MudDrawer @bind-Open="IsDrawerOpen" DisableOverlay=true Variant="@DrawerVariant.Temporary" ClipMode="@DrawerClipMode.Always" Elevation="1" Class="flex-column z-10 overflow-hidden">
     @ChildContent
     <MudPaper Elevation="0" Outlined="false" Class="flex-fill" />
-    <MudItem Class="d-flex flex-row justify-content-center">
+    <MudPaper Elevation="0" Outlined="false" Class="d-flex flex-nowrap justify-center align-center">
         <Socials IconColor="Color.Primary"/>
-    </MudItem>
+    </MudPaper>
 </MudDrawer>
 
 @code {

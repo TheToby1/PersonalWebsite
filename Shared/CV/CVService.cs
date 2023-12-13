@@ -1,7 +1,11 @@
-using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.Net.Http;
 using System.Text.Json;
+using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 
-namespace PersonalWebsite.Shared
+namespace PersonalWebsite.Shared.CV
 {
     public interface ICVService
     {
@@ -11,10 +15,10 @@ namespace PersonalWebsite.Shared
     public abstract class BaseCVService : ICVService
     {
         // ToDo: This should be protected and the extension service in client should log some other way
-        public ILogger<ICVService> Logger { get; set; }
+        public ILogger Logger { get; set; }
         public readonly string LoggerString = "ICVService: ";
 
-        protected BaseCVService(ILogger<ICVService> logger)
+        protected BaseCVService(ILogger logger)
         {
             Logger = logger;
         }
@@ -25,8 +29,12 @@ namespace PersonalWebsite.Shared
     public sealed class JsonCVService : BaseCVService
     {
         private HttpClient HttpClient { get; set; }
+        private readonly JsonSerializerOptions _jsonSerializerOptions = new JsonSerializerOptions()
+        {
+            PropertyNameCaseInsensitive = true
+        };
 
-        public JsonCVService(HttpClient httpClient, ILogger<ICVService> logger) : base(logger)
+        public JsonCVService(HttpClient httpClient, ILogger<JsonCVService> logger) : base(logger)
         {
             HttpClient = httpClient;
         }
@@ -38,14 +46,12 @@ namespace PersonalWebsite.Shared
                 var response = await HttpClient.GetAsync($"staticData/{typeof(CVSection).Name}.json");
                 response.EnsureSuccessStatusCode();
                 var data = await response.Content.ReadAsStringAsync();
-                var result = JsonSerializer.Deserialize<CVSection>(data, new JsonSerializerOptions
-                {
-                    PropertyNameCaseInsensitive = true
-                });
+
+                CVSection? result = JsonSerializer.Deserialize<CVSection>(data, _jsonSerializerOptions);
                 if (result == null)
                 {
                     // Log the error
-                    Logger.LogError(LoggerString, "Error fetching CV data: Result of JsonSerializer.Deserialize was null");
+                    Logger.LogError("{LoggerString}:{}", LoggerString, "Error fetching CV data: Result of JsonSerializer.Deserialize was null");
                     return new CVSection();
                 }
                 return result;
@@ -53,18 +59,16 @@ namespace PersonalWebsite.Shared
             catch (Exception ex)
             {
                 // Log the error
-                Logger.LogError(LoggerString, "Error fetching CV data: " + ex.Message);
+                Logger.LogError("{LoggerString}:{}", LoggerString, $"Error fetching CV data: {ex.Message}");
                 // Return a default CV object or throw an exception, depending on your requirements
                 return new CVSection();
             }
         }
     }
 
-    public sealed class FixedCVService : BaseCVService
+    public sealed class StubCVService : BaseCVService
     {
-        public FixedCVService(ILogger<JsonCVService> logger) : base(logger)
-        {
-        }
+        public StubCVService(ILogger<StubCVService> logger) : base(logger) { }
 
         public override async Task<CVSection> GetCVAsync()
         {
@@ -100,6 +104,6 @@ namespace PersonalWebsite.Shared
                 cv.SubSections.Add(cvSection);
             }
             return await Task.FromResult(cv);
-        } 
+        }
     }
 }
