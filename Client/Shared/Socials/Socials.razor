@@ -1,0 +1,28 @@
+﻿<MudButton Style=@($"min-width:{IconSize/0.0625}px; aspect-ratio:1/1") Class="flex-auto" Href="https://github.com/TheToby1" Target="_blank">
+    <MudIcon Style=@($"font-size: {IconSize}rem;") Color=@IconColor Icon="@Icons.Custom.Brands.GitHub" />
+</MudButton>
+<MudPaper Elevation="0" Outlined="false" MinWidth=@IconGap></MudPaper>
+<MudButton Style=@($"min-width:{IconSize/0.0625}px; aspect-ratio:1/1") Class="flex-auto" Href=@($"https://social.vivaldi.net/@TheToby") Target="_blank">
+    <MudIcon Style=@($"font-size: {IconSize}rem;") Color=@IconColor Icon="@Custom_Icons.Mastodon" />
+</MudButton>
+<MudPaper Elevation="0" Outlined="false" MinWidth=@IconGap></MudPaper>
+<MudButton Style=@($"min-width:{IconSize/0.0625}px; aspect-ratio:1/1") Class="flex-auto" Href="https://bookrastinating.com/user/TheToby" Target="_blank">
+    <MudIcon Style=@($"font-size: {IconSize}rem;") Color=@IconColor Icon="@Custom_Icons.Bookwyrm" />
+</MudButton>
+<MudPaper Elevation="0" Outlined="false" MinWidth=@IconGap></MudPaper>
+<MudButton Style=@($"min-width:{IconSize/0.0625}px; aspect-ratio:1/1") Class="flex-auto" Href="https://pixelfed.social/TheToby" Target="_blank">
+    <MudIcon Style=@($"font-size: {IconSize}rem;") Color=@IconColor Icon="@Custom_Icons.Pixelfed" />
+</MudButton>
+<MudPaper Elevation="0" Outlined="false" MinWidth=@IconGap></MudPaper>
+<MudButton Style=@($"min-width:{IconSize/0.0625}px; aspect-ratio:1/1") Class="flex-auto" Href="https://linkedin.com/in/TobyBurns" Target="_blank">
+    <MudIcon Style=@($"font-size: {IconSize}rem;") Color=@IconColor Icon="@Icons.Custom.Brands.LinkedIn" />
+</MudButton>
+
+@code {
+    [Parameter]
+    public float IconSize { get; set; } = 1.5f;
+    [Parameter]
+    public Color IconColor { get; set; } = Color.Inherit;
+    [Parameter]
+    public string IconGap { get; set; } = "0px";
+}
