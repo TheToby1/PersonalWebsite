@@ -11,9 +11,9 @@
 <MudDrawerWithSocials>
     <ChildContent>
         <MudButton OnClick="@OnHomeButtonClick">Home</MudButton>
-        <MudTreeView Items="@CV?.SubSections" T="CVSection" Hover="true" @bind-SelectedValue="@SelectedValue">
+        <MudTreeView Items="@TreeItems.Children" T="CVSection" Hover="true" @bind-SelectedValue="@SelectedValue">
             <ItemTemplate>
-                <MudTreeViewItem Items="@context.SubSections" Value="@context" Text="@context.Title" />
+                <MudTreeViewItem Items="@context.Children" Value="@context.Value" Text="@context.Value?.Title" />
             </ItemTemplate>
         </MudTreeView>
     </ChildContent>
@@ -50,11 +50,26 @@
         } 
     }
     private bool DetailedView { get { return SelectedValue != CV; } }
+    private TreeItemData<CVSection> TreeItems { get; set; } = new();
 
     protected override async Task OnInitializedAsync()
     {
         CV = await CVService.GetCVAsync();
+        TreeItems = ConvertToTreeItemData(CV);
+
+
         SelectedValue = CV;
+    }
+
+    private TreeItemData<CVSection> ConvertToTreeItemData(CVSection item)
+    {
+        var children = item.SubSections.Select(x => ConvertToTreeItemData(x)).ToList();
+        var root = new TreeItemData<CVSection>
+            {
+            Value = item,
+            Children = children
+        };
+        return root;
     }
 
     private void OnHomeButtonClick()
