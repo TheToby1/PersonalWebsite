@@ -1,9 +1,6 @@
-﻿using Microsoft.AspNetCore.Components;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
+﻿using System.Collections.Generic;
 
-namespace PersonalWebsite.Shared
+namespace PersonalWebsite.Shared.CV
 {
     /// <summary>
     /// Represents a section in a CV which contains entries
