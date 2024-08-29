@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+using Microsoft.Extensions.DependencyInjection;
 using MudBlazor.Services;
 using PersonalWebsite.Client;
 using PersonalWebsite.Shared.Contact;
@@ -17,7 +18,7 @@ builder.Services.AddMudServices();
 builder.Services.AddHttpClient("local",
     (h) => h.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress));
 builder.Services.AddHttpClient("api",
-    (h) => h.BaseAddress = new Uri("http://localhost:7071"));
+    (h) => h.BaseAddress = new Uri(builder.Configuration["Api_Uri"] ?? builder.HostEnvironment.BaseAddress));
 
 // TODO: Replace this with a proper http rest service
 builder.Services.AddHttpClient<ICVService, JsonCVService>("local");
