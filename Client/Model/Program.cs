@@ -17,7 +17,7 @@ builder.Services.AddMudServices();
 builder.Services.AddHttpClient("local",
     (h) => h.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress));
 builder.Services.AddHttpClient("api",
-    (h) => h.BaseAddress = new Uri("http://localhost:7071"));
+    (h) => h.BaseAddress = new Uri(builder.Configuration["Api_Uri"] ?? "http://localhost:7071"));
 
 // TODO: Replace this with a proper http rest service
 builder.Services.AddHttpClient<ICVService, JsonCVService>("local");
