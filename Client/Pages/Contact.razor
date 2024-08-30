@@ -21,8 +21,14 @@
                                   Validation="@(new EmailAddressAttribute() {ErrorMessage = "The email address is invalid"})" />
                     <MudTextField @bind-Value="message.Subject" T="string" Label="Subject" HelperText="" InputType="InputType.Text" />
                     <MudTextField @bind-Value="message.Content" Lines="5" T="string" Label="Content" HelperText="" InputType="InputType.Text" />
-                    <div class="mt-2 d-flex align-center justify-space-between">
-                        <MudButton Variant="Variant.Filled" Color="Color.Primary" Disabled="@(!isFormValid)" Class="ml-auto" OnClick=@SendCommunication>Send Email</MudButton>
+                    <div class="mt-2 d-flex align-center">
+                            <MudButton Variant="Variant.Filled" Color=Color.Primary Disabled="@(!isFormValid || isSending)" Class="ml-auto" OnClick=@SendCommunication>
+                                @if (isSending)
+                                {
+                                    <MudProgressCircular Style="color:white" Class="mr-4" Size=Size.Small Indeterminate="true" />
+                                }
+                                <MudText>Send Email</MudText>
+                            </MudButton>
                     </div>
                 </MudForm>
             </MudPaper>
@@ -36,12 +42,15 @@
 
 @code{
     bool isFormValid;
+    bool isSending;
     string[] errors = { };
     MudForm? form;
     ContactRequest message = new ContactRequest();
 
     protected async Task SendCommunication()
     {
+
+        isSending = true;
         if (!isFormValid) 
         { 
             Snackbar.Add($"The form is not valid: {String.Join(", ", errors)}", Severity.Error);
@@ -52,5 +61,7 @@
         var result = await ContactService.SendAsync(message);
         var severity = (((int)result.ResponseCode >= 200) && ((int)result.ResponseCode <= 299)) ? Severity.Success : Severity.Error;
         Snackbar.Add(result.Response, severity);
+
+        isSending = false;
     }
 }
