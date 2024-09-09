@@ -17,6 +17,7 @@ namespace PersonalWebsite.Shared.Contact
         [Required]
         [EmailAddress(ErrorMessage = "Invalid Email Address")]
         public string? ToAddress { get; set; }
+        public string? ToDisplayName { get; set; }
         public string? NoReplyAddress { get; set; }
     }
 
@@ -29,7 +30,7 @@ namespace PersonalWebsite.Shared.Contact
         public EmailSender(SmtpClient smtpClient, IOptions<EmailSenderOptions> options)
         {
             _smtpClient = smtpClient;
-            _toAddress = new MailAddress(options.Value.ToAddress ?? "");
+            _toAddress = new MailAddress(options.Value.ToAddress ?? "", options.Value.ToDisplayName ?? "TheToby");
             _noReplyAddress = string.IsNullOrEmpty(options.Value.NoReplyAddress) ?
                 _toAddress :
                 new MailAddress(options.Value.NoReplyAddress);
@@ -63,7 +64,7 @@ namespace PersonalWebsite.Shared.Contact
             await _smtpClient.SendMailAsync(messageTo);
 
             var confirmationContent = $"This message is to confirm that an email has been sent to " +
-                $"{_toAddress.User} with the following content:\n\n{request.Content}";
+                $"{_toAddress.DisplayName} with the following content:\n\n{request.Content}";
             using MailMessage messageConfirmation = new(_noReplyAddress, fromAddress)
             {
                 Subject = request.Subject,
