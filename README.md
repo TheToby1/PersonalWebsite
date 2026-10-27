@@ -25,14 +25,4 @@ dotnet build
 ```
 
 ### Running Locally
-```bash
-# Terminal 1 - Backend
-cd BackendFunctions
-func start --port 7071 --no-build
-
-# Terminal 2 - Frontend
-cd Client
-dotnet run --urls "http://localhost:5242;https://localhost:7177"
-```
-
-Or use the VS Code tasks (Ctrl+Shift+P > Tasks: Run Task > run-all)
+Use the VS Code tasks (Ctrl+Shift+P > Tasks: Run Task > run-all) or take the commands from inside it.
