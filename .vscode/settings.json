@@ -1,7 +1,6 @@
 {
   "dotnet.defaultSolution": "PersonalWebsite.sln",
-  "terminal.integrated.defaultProfile.linux": "bash",
-  "tasks.autoDetect": "on",
+  "terminal.integrated.defaultProfile.linux": "fish",
   "azureFunctions.projectLanguage": "C#",
   "azureFunctions.projectRuntime": "~4",
   "csharp.format.enable": true,
@@ -19,7 +18,7 @@
     "**/obj": true,
     "**/.vs": true
   },
-  "azureFunctions.deploySubpath": "BackendFunctions/bin/Release/net8.0/publish",
+  "azureFunctions.deploySubpath": "BackendFunctions/bin/Release/net10.0/publish",
   "debug.internalConsoleOptions": "neverOpen",
   "azureFunctions.preDeployTask": "publish (functions)"
 }

@@ -2,123 +2,42 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "build-backend",
+      "label": "build",
       "type": "shell",
       "command": "dotnet build",
-      "args": ["--configuration", "Debug"],
       "options": {
-        "cwd": "${workspaceFolder}/BackendFunctions"
+        "cwd": "${workspaceFolder}"
       },
       "group": {
         "kind": "build",
         "isDefault": true
-      },
-      "problemMatcher": "$msCompile",
-      "presentation": {
-        "reveal": "silent",
-        "panel": "shared"
-      }
-    },
-    {
-      "label": "build-frontend",
-      "type": "shell",
-      "command": "dotnet build",
-      "args": ["--configuration", "Debug"],
-      "options": {
-        "cwd": "${workspaceFolder}/Client"
-      },
-      "group": "build",
-      "problemMatcher": "$msCompile",
-      "presentation": {
-        "reveal": "silent",
-        "panel": "shared"
-      }
-    },
-    {
-      "label": "build-all",
-      "dependsOn": ["build-backend", "build-frontend"],
-      "group": {
-        "kind": "build",
-        "isDefault": true
-      },
-      "problemMatcher": "$msCompile",
-      "presentation": {
-        "reveal": "silent",
-        "panel": "shared"
       }
     },
     {
       "label": "run-backend",
       "type": "shell",
-      "command": "func",
-      "args": ["start", "--port", "7071", "--no-build"],
+      "command": "dotnet run",
       "options": {
-        "cwd": "${workspaceFolder}/BackendFunctions",
-        "env": {
-          "AZURE_FUNCTIONS_ENVIRONMENT": "Development",
-          "FUNCTIONS_WORKER_RUNTIME": "dotnet-isolated"
-        }
+        "cwd": "${workspaceFolder}/BackendFunctions"
       },
-      "isBackground": true,
-      "problemMatcher": {
-        "owner": "azure-functions",
-        "pattern": {
-          "regexp": ".*"
-        },
-        "background": {
-          "activeOnStart": true,
-          "beginsPattern": ".*",
-          "endsPattern": "Host initialized"
-        }
-      },
-      "presentation": {
-        "reveal": "always",
-        "panel": "dedicated",
-        "group": "backend"
-      }
+      "isBackground": true
     },
     {
       "label": "run-frontend",
       "type": "shell",
-      "command": "dotnet",
-      "args": [
-        "run",
-        "--project",
-        "${workspaceFolder}/Client/PersonalWebsite.Client.csproj",
-        "--configuration",
-        "Debug",
-        "--urls",
-        "http://localhost:5242;https://localhost:7177"
-      ],
+      "command": "dotnet run --urls http://localhost:5242",
       "options": {
         "cwd": "${workspaceFolder}/Client"
       },
-      "isBackground": true,
-      "problemMatcher": {
-        "owner": "blazor",
-        "pattern": {
-          "regexp": ".*"
-        },
-        "background": {
-          "activeOnStart": true,
-          "beginsPattern": ".*",
-          "endsPattern": "Now listening on:"
-        }
-      },
-      "presentation": {
-        "reveal": "always",
-        "panel": "dedicated",
-        "group": "frontend"
-      }
+      "isBackground": true
     },
     {
       "label": "run-all",
-      "dependsOn": ["build-all", "run-backend", "run-frontend"],
-      "group": "test",
-      "presentation": {
-        "reveal": "always",
-        "panel": "dedicated"
-      }
+      "dependsOn": [
+        "run-backend",
+        "run-frontend"
+      ],
+      "dependsOrder": "parallel"
     }
   ]
 }

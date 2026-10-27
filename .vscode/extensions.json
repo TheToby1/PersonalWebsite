@@ -5,12 +5,5 @@
     "ms-dotnettools.csdevkit",
     "ms-vscode.vscode-typescript-next",
     "ms-dotnettools.blazorwasm"
-  ],
-  "settings": {
-    "dotnet.defaultSolution": "PersonalWebsite.sln",
-    "terminal.integrated.defaultProfile.linux": "bash",
-    "tasks.autoDetect": "on",
-    "azureFunctions.projectLanguage": "C#",
-    "azureFunctions.projectRuntime": "dotnet-isolated"
-  }
+  ]
 }
