@@ -1,0 +1,25 @@
+{
+  "dotnet.defaultSolution": "PersonalWebsite.sln",
+  "terminal.integrated.defaultProfile.linux": "bash",
+  "tasks.autoDetect": "on",
+  "azureFunctions.projectLanguage": "C#",
+  "azureFunctions.projectRuntime": "~4",
+  "csharp.format.enable": true,
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": "explicit"
+  },
+  "files.exclude": {
+    "**/bin": true,
+    "**/obj": true,
+    "**/.vs": true
+  },
+  "search.exclude": {
+    "**/bin": true,
+    "**/obj": true,
+    "**/.vs": true
+  },
+  "azureFunctions.deploySubpath": "BackendFunctions/bin/Release/net8.0/publish",
+  "debug.internalConsoleOptions": "neverOpen",
+  "azureFunctions.preDeployTask": "publish (functions)"
+}

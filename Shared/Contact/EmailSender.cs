@@ -23,13 +23,13 @@ namespace PersonalWebsite.Shared.Contact
 
     public class EmailSender : ICommunicationSender
     {
-        private readonly SmtpClient _smtpClient;
+        private readonly IMailSender _mailSender;
         private readonly MailAddress _toAddress;
         private readonly MailAddress _noReplyAddress;
 
-        public EmailSender(SmtpClient smtpClient, IOptions<EmailSenderOptions> options)
+        public EmailSender(IMailSender mailSender, IOptions<EmailSenderOptions> options)
         {
-            _smtpClient = smtpClient;
+            _mailSender = mailSender;
             _toAddress = new MailAddress(options.Value.ToAddress ?? "", options.Value.ToDisplayName ?? "TheToby");
             _noReplyAddress = string.IsNullOrEmpty(options.Value.NoReplyAddress) ?
                 _toAddress :
@@ -61,7 +61,7 @@ namespace PersonalWebsite.Shared.Contact
                 BodyEncoding = System.Text.Encoding.UTF8
             };
             messageTo.ReplyToList.Add(fromAddress);
-            await _smtpClient.SendMailAsync(messageTo);
+            await _mailSender.SendMailAsync(messageTo);
 
             var confirmationContent = $"This message is to confirm that an email has been sent to " +
                 $"{_toAddress.DisplayName} with the following content:\n\n{request.Content}";
@@ -72,7 +72,7 @@ namespace PersonalWebsite.Shared.Contact
                 Body = confirmationContent,
                 BodyEncoding = System.Text.Encoding.UTF8
             };
-            await _smtpClient.SendMailAsync(messageConfirmation);
+            await _mailSender.SendMailAsync(messageConfirmation);
         }
     }
 }
